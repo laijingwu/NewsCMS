@@ -1,0 +1,9 @@
+.video_show {margin: 0 auto; width: 401px; border-radius: 6px; z-index:5; margin-left: 20%; display: none;}
+    .black {width:400px; height:156px; opacity: 0.6; position:fixed; background: #333; z-index:5; }
+    .white {width:388px; height:144px; position:fixed; margin-top: 6px; margin-left: 6px; background: white; z-index:5;}
+    .lab {margin-left: 17px;}
+    .hr1 {width: 350px; margin-top: 30px;}
+    .hr2 {width: 350px;}
+    .img_close {float:right; margin-right: 17px;}
+    .add {cursor: pointer;}
+    .pagination label, .lab{ font-weight: normal; display:inline;}

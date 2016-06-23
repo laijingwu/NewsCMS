@@ -1,0 +1,116 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" type="text/css" href="wysiwyg/styles/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="wysiwyg/styles/flat-ui.min.css"/>
+    <link rel="stylesheet" type="text/css" href="wysiwyg/styles/wysiwyg.css"/>
+    <link rel="stylesheet" type="text/css" href="wysiwyg/styles/font-awesome.min.css"/>
+    <script language="JavaScript" src="wysiwyg/scripts/jquery-1.11.3.min.js"></script>
+    <script language="JavaScript" src="wysiwyg/scripts/bootstrap.min.js"></script>
+    <script language="JavaScript" src="wysiwyg/scripts/wysiwyg/bootstrap-wysiwyg.js"></script>
+    <script language="JavaScript" src="wysiwyg/scripts/wysiwyg/jquery.hotkeys.js"></script>
+    <script>
+$(document).ready(function(){  
+    $("#url").bind("focus",function(){
+    	$(".input-group").addClass('focus');
+    });
+    $("#url").bind("blur",function(){
+    	$(".input-group").removeClass('focus');
+    });
+}) 
+</script>
+</head>
+<body style="overflow: hidden;">
+      <div class="btn-toolbar" data-role="editor-toolbar" data-target="#editor">
+      <div class="btn-group btn-group-xs">
+        <a class="btn btn-inverse dropdown-toggle" data-toggle="dropdown" title="字体"><i class="fa fa-font"></i><span class="caret"></span></a>
+          <ul class="dropdown-menu dropdown-menu-inverse">
+          </ul>
+        </div>
+      <div class="btn-group btn-group-xs">
+        <a class="btn btn-inverse dropdown-toggle" data-toggle="dropdown" title="字体大小"><i class="fa fa-text-height"></i><span class="caret"></span></a>
+          <ul class="dropdown-menu dropdown-menu-inverse">
+          <li><a data-edit="fontSize 6"><font size="6">最大</font></a></li>
+          <li><a data-edit="fontSize 5"><font size="5">较大</font></a></li>
+          <li><a data-edit="fontSize 4"><font size="4">正常</font></a></li>
+          <li><a data-edit="fontSize 3"><font size="3">较小</font></a></li>
+          <li><a data-edit="fontSize 1"><font size="1">最小</font></a></li>
+          </ul>
+      </div>
+      <div class="btn-group btn-group-xs">
+        <a class="btn btn-inverse" data-edit="bold" title="加粗"><i class="fa fa-bold"></i></a>
+        <a class="btn btn-inverse" data-edit="italic" title="斜体"><i class="fa fa-italic"></i></a>
+        <a class="btn btn-inverse" data-edit="strikethrough" title="删除线"><i class="fa fa-strikethrough"></i></a>
+        <a class="btn btn-inverse" data-edit="underline" title="下划线"><i class="fa fa-underline"></i></a>
+      </div>
+      <div class="btn-group btn-group-xs">
+        <a class="btn btn-inverse" data-edit="insertunorderedlist" title="项目列表"><i class="fa fa-list-ul"></i></a>
+        <a class="btn btn-inverse" data-edit="insertorderedlist" title="编号列表"><i class="fa fa-list-ol"></i></a>
+      </div>
+      <div class="btn-group btn-group-xs">
+        <a class="btn btn-inverse" data-edit="justifyleft" title="文本居左"><i class="fa fa-align-left"></i></a>
+        <a class="btn btn-inverse" data-edit="justifycenter" title="文本居中"><i class="fa fa-align-center"></i></a>
+        <a class="btn btn-inverse" data-edit="justifyright" title="文本居右"><i class="fa fa-align-right"></i></a>
+        <a class="btn btn-inverse" data-edit="justifyfull" title="两端对齐"><i class="fa fa-align-justify"></i></a>
+      </div>
+      <div class="btn-group btn-group-xs">
+		  <a class="btn btn-inverse dropdown-toggle" data-toggle="dropdown" title="超链接"><i class="fa fa-link"></i></a>
+		    <div class="dropdown-menu dropdown-menu-inverse input-append">
+		    	<div class="input-group">
+		          <input class="form-control" id="url" type="text" placeholder="网址" data-edit="createLink">
+		          <span class="input-group-btn">
+		            <button type="button" class="btn btn-inverse"><span class="fui-search"></span></button>
+		          </span>
+		        </div>
+			</div>
+      </div>
+      
+      <div class="btn-group btn-group-xs">
+        <a class="btn btn-inverse" title="添加图片" id="pictureBtn"><i class="fa fa-picture-o"></i></a>
+        <input type="file" data-role="magic-overlay" data-target="#pictureBtn" data-edit="insertImage" />
+      </div>
+    </div>
+
+    <div id="editor"></div>
+
+    <script>
+  $(function(){
+    function initToolbarBootstrapBindings() {
+      var fonts = ['微软雅黑', '幼圆', '宋体', '楷体', '黑体', 'Arial', 'Times New Roman'],
+            fontTarget = $('[title=字体]').siblings('.dropdown-menu');
+      $.each(fonts, function (idx, fontName) {
+      		fontTarget.append($('<li><a data-edit="fontName ' + fontName +'" style="font-family:\''+ fontName +'\'">'+fontName + '</a></li>'));
+      	if (fontName == '黑体')
+      		fontTarget.append($('<li class="divider"></li>'));
+      });
+      $('a[title]').tooltip({container:'body'});
+    	$('.dropdown-menu input').click(function() {return false;})
+		    .change(function () {$(this).parent('.dropdown-menu').siblings('.dropdown-toggle').dropdown('toggle');})
+        .keydown('esc', function () {this.value='';$(this).change();});
+
+      $('[data-role=magic-overlay]').each(function () { 
+        var overlay = $(this), target = $(overlay.data('target')); 
+        overlay.css('opacity', 0).css('position', 'absolute').offset(target.offset()).width(target.outerWidth()).height(target.outerHeight());
+      });
+      if ("onwebkitspeechchange"  in document.createElement("input")) {
+        var editorOffset = $('#editor').offset();
+        $('#voiceBtn').css('position','absolute').offset({top: editorOffset.top, left: editorOffset.left+$('#editor').innerWidth()-35});
+      } else {
+        $('#voiceBtn').hide();
+      }
+	};
+	function showErrorAlert (reason, detail) {
+		var msg='';
+		if (reason==='unsupported-file-type') { msg = "不支持的格式 " +detail; }
+		else {
+			console.log("error uploading file", reason, detail);
+		}
+		$('<div class="alert alert-danger" role="alert"><button type="button" class="close" data-dismiss="alert" style="line-height: 1.4;">&times;</button><strong>文件上传失败：</strong> '+msg+' </div>').prependTo('#alerts');
+	};
+    initToolbarBootstrapBindings();  
+	$('#editor').wysiwyg({ fileUploadError: showErrorAlert} );
+  });
+</script>
+</body>
+</html>
